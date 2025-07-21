@@ -11,7 +11,7 @@ using FuncionariosAPI.Models;
 
 namespace FuncionariosAPI.Controllers
 {
-    [Route("v1/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class FuncionariosController : ControllerBase
     {
@@ -23,6 +23,7 @@ namespace FuncionariosAPI.Controllers
         }
         
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Funcionarios>>> GetAll()
         {
             var funcionarios = await _context
@@ -34,6 +35,8 @@ namespace FuncionariosAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Funcionarios>> Get([FromRoute] long id)
         {
             var funcionarios = await _context
@@ -44,6 +47,8 @@ namespace FuncionariosAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Post([FromBody] FuncionariosDTO funcionariosDTO)
         {
             if (!ModelState.IsValid)
@@ -63,6 +68,9 @@ namespace FuncionariosAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Put([FromBody] FuncionariosDTO funcionariosDTO, [FromRoute] long id)
         {
             var funcionarios = await _context.Funcionarios.FindAsync(id);
@@ -87,6 +95,8 @@ namespace FuncionariosAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType (StatusCodes.Status204NoContent)]
         public async Task<ActionResult> Delete([FromRoute] long id)
         {
             var funcionarios = await _context.Funcionarios.FindAsync(id);
@@ -100,6 +110,8 @@ namespace FuncionariosAPI.Controllers
         }
 
         [HttpGet("{id}/salario-bruto")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Decimal>> GetSalarioBruto([FromRoute] long id)
         {
             var funcionarios = await _context.Funcionarios.FindAsync(id);
@@ -110,6 +122,8 @@ namespace FuncionariosAPI.Controllers
         }
 
         [HttpGet("{id}/salario-liquido")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Decimal>> GetSalarioLiquido([FromRoute] long id)
         {
             var funcionarios = await _context.Funcionarios.FindAsync(id);
